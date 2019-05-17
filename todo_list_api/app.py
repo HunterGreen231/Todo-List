@@ -39,7 +39,7 @@ def add_todo():
         db.session.add(record)
         db.session.commit()
         return jsonify([record.id, record.title, record.done]) 
-    return jsonify("POST REQUEST DO A NO NO")
+    return jsonify("An error occured. Only post application/json")
 
 @app.route("/todo/<id>", methods=["PUT"])
 def update_todo(id):
