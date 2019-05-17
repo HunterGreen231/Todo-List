@@ -36,7 +36,17 @@ button {
   width: 80%;
 }
 
+p {
+  width: 100%;
+}
+
+.delete-buttons-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
 .done {
   color: black;
-  text-decoration: none;
+  text-decoration: line-through;
 }
