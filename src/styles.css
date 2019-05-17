@@ -1,0 +1,42 @@
+#root {
+  display: flex;
+  justify-content: center;
+  color: #00cb78;
+  font-family: sans-serif;
+}
+
+.app {
+  margin-top: 2rem;
+  display: grid;
+  justify-items: center;
+  background-color: #454544;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 5px 5px 5px #999;
+}
+
+.add-todo {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 60%;
+  padding-bottom: 15px;
+}
+
+.add-todo input,
+button {
+  border-radius: 10px;
+  outline: none;
+  border: none;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  width: 80%;
+}
+
+.done {
+  color: black;
+  text-decoration: none;
+}
