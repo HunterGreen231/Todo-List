@@ -5,7 +5,7 @@ class TodoItem extends React.Component {
     super(props);
 
     this.state = {
-      done: props.done
+      done: props.item.done
     };
   }
 
@@ -14,7 +14,7 @@ class TodoItem extends React.Component {
       method: "PUT",
       headers: { "Content-Type": "application/json"},
       body: JSON.stringify({
-        title: this.props.title,
+        title: this.props.item.title,
         done: !this.state.done
       })
     })
@@ -33,9 +33,9 @@ class TodoItem extends React.Component {
           onClick={this.toggleDone}
           defaultChecked={this.state.done}
         />
-        <p className={this.state.done ? "done" : null}>{this.props.title}</p>
+        <p className={this.state.done ? "done" : null}>{this.props.item.title}</p>
         <div className="delete-buttons-wrapper">
-          <button onClick={() => this.props.deleteItem(this.props.id)} className="delete-button">X</button>
+          <button onClick={() => this.props.deleteItem(this.props.item.id)} className="delete-button">X</button>
         </div>
       </div>
     );

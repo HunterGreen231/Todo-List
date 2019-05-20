@@ -1,7 +1,7 @@
 #root {
   display: flex;
   justify-content: center;
-  color: #00cb78;
+  color: white;
   font-family: sans-serif;
 }
 
@@ -9,7 +9,7 @@
   margin-top: 2rem;
   display: grid;
   justify-items: center;
-  background-color: #454544;
+  background-color: black;
   border-radius: 10px;
   width: 400px;
   box-shadow: 5px 5px 5px #999;
@@ -47,6 +47,6 @@ p {
 }
 
 .done {
-  color: black;
+  color: grey;
   text-decoration: line-through;
 }

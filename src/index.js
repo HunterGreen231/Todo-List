@@ -18,9 +18,12 @@ class App extends React.Component {
   componentDidMount() {
     fetch("http://localhost:5000/todos")
       .then(response => response.json())
-      .then(data => this.setState({
-        todos: data
-      }))
+      .then(data => {
+            this.setState({
+            todos: data
+          })
+        }
+      )
   }
 
   onChange = event => {
@@ -33,10 +36,8 @@ class App extends React.Component {
     return this.state.todos.map(item => {
       return (
         <TodoItem 
-          key={item[0]}
-          id={item[0]}
-          title={item[1]}
-          done={item[2]}
+          key={item.id}
+          item = {item}
           deleteItem={this.deleteItem}
         />
       )
@@ -71,7 +72,7 @@ class App extends React.Component {
     })
     .then(this.setState({
       todos: this.state.todos.filter(item => {
-        return item[0] !== id
+        return item.id !== id
       })
     }))
     .catch(error => {
