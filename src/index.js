@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import axios from 'axios'
+import axios from "axios";
 
 import TodoItem from "./todo-item";
 import "./styles.css";
@@ -19,11 +19,10 @@ class App extends React.Component {
     fetch("http://localhost:5000/todos")
       .then(response => response.json())
       .then(data => {
-            this.setState({
-            todos: data
-          })
-        }
-      )
+        this.setState({
+          todos: data
+        });
+      });
   }
 
   onChange = event => {
@@ -35,12 +34,8 @@ class App extends React.Component {
   renderTodos = () => {
     return this.state.todos.map(item => {
       return (
-        <TodoItem 
-          key={item.id}
-          item = {item}
-          deleteItem={this.deleteItem}
-        />
-      )
+        <TodoItem key={item.id} item={item} deleteItem={this.deleteItem} />
+      );
     });
   };
 
@@ -49,36 +44,38 @@ class App extends React.Component {
     axios({
       method: "post",
       url: "http://localhost:5000/add-todo",
-      headers: { "content-type": "application/json"},
+      headers: { "content-type": "application/json" },
       data: {
         title: this.state.todo,
         done: false
       }
     })
-    .then(data => {
-      this.setState({
-        todos: [...this.state.todos, data.data],
-        todo: ''
+      .then(data => {
+        this.setState({
+          todos: [...this.state.todos, data.data],
+          todo: ""
+        });
       })
-    })
-    .catch(error => {
-      console.log("An error happened: ", error)
-    })
+      .catch(error => {
+        console.log("An error happened: ", error);
+      });
   };
 
   deleteItem = id => {
     fetch(`http://localhost:5000/todo/${id}`, {
       method: "DELETE"
     })
-    .then(this.setState({
-      todos: this.state.todos.filter(item => {
-        return item.id !== id
-      })
-    }))
-    .catch(error => {
-      console.log("An error occured: ", error)
-    })
-  }
+      .then(
+        this.setState({
+          todos: this.state.todos.filter(item => {
+            return item.id !== id;
+          })
+        })
+      )
+      .catch(error => {
+        console.log("An error occured: ", error);
+      });
+  };
 
   render() {
     return (

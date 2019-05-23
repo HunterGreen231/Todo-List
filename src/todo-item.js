@@ -10,22 +10,24 @@ class TodoItem extends React.Component {
   }
 
   toggleDone = () => {
-    fetch(`http://localhost:5000/todo/${this.props.id}`, {
+    fetch(`http://localhost:5000/todo/${this.props.item.id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: this.props.item.title,
         done: !this.state.done
       })
     })
-    .then(this.setState({
-      done: !this.state.done
-    }))
-    .catch(error => console.log(error))
-
-  }
+      .then(
+        this.setState({
+          done: !this.state.done
+        })
+      )
+      .catch(error => console.log(error));
+  };
 
   render() {
+    console.log(this.props.title);
     return (
       <div className="todo-item">
         <input
@@ -33,9 +35,16 @@ class TodoItem extends React.Component {
           onClick={this.toggleDone}
           defaultChecked={this.state.done}
         />
-        <p className={this.state.done ? "done" : null}>{this.props.item.title}</p>
+        <p className={this.state.done ? "done" : null}>
+          {this.props.item.title}
+        </p>
         <div className="delete-buttons-wrapper">
-          <button onClick={() => this.props.deleteItem(this.props.item.id)} className="delete-button">X</button>
+          <button
+            onClick={() => this.props.deleteItem(this.props.item.id)}
+            className="delete-button"
+          >
+            X
+          </button>
         </div>
       </div>
     );
