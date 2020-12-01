@@ -32,6 +32,7 @@ class TodoItem extends React.Component {
       <div className="todo-item">
         <input
           type="checkbox"
+          className="check-box"
           onClick={this.toggleDone}
           defaultChecked={this.state.done}
         />

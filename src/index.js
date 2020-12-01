@@ -11,18 +11,58 @@ class App extends React.Component {
 
     this.state = {
       todo: "",
-      todos: []
+      todos: [],
+      todoCompletionBarPercentage: 20,
+      todosLength: 0,
+      todosDone: 0
     };
   }
 
-  componentDidMount() {
-    fetch("https://hg-todo-list-api.herokuapp.com/todos")
+  componentWillMount() {
+    fetch("http://localhost:5000/todos")
       .then(response => response.json())
       .then(data => {
+        let todosLength = data.length;
+        let todosDone = this.checkDoneAmount(data);
+
         this.setState({
-          todos: data
+          todos: data,
+          todosLength: data.length,
+          todosDone: this.checkDoneAmount(this.state.todos)
         });
+
+        this.calculateCompletionBarPercentage(todosDone, todosLength);
       });
+  }
+
+  checkDoneAmount(data) {
+    let doneAmount = 0;
+
+    for (let todo of data) {
+      if (todo.done) doneAmount++;
+    }
+    return doneAmount;
+  }
+
+  calculateCompletionBarPercentage(todosDone, todosLength) {
+    let completionDecimal = todosDone / todosLength;
+    completionDecimal = completionDecimal * 100;
+
+    this.setState({
+      todoCompletionBarPercentage: completionDecimal.toFixed(2)
+    })
+  }
+
+  updateCompletionBarPercentage() {
+    let completionDecimal = this.state.todosDone / this.state.todosLength;
+    completionDecimal = completionDecimal * 100;
+
+    this.setState({
+      todoCompletionBarPercentage: completionDecimal.toFixed(2)
+    })
+
+    console.log(this.state.todoCompletionBarPercentage);
+    console.log(completionDecimal.toFixed(2));
   }
 
   onChange = event => {
@@ -41,9 +81,12 @@ class App extends React.Component {
 
   addTodo = event => {
     event.preventDefault();
+
+    this.updateCompletionBarPercentage();
+
     axios({
       method: "post",
-      url: "https://hg-todo-list-api.herokuapp.com/add-todo",
+      url: "http://localhost:5000/add-todo",
       headers: { "content-type": "application/json" },
       data: {
         title: this.state.todo,
@@ -62,7 +105,7 @@ class App extends React.Component {
   };
 
   deleteItem = id => {
-    fetch(`https://hg-todo-list-api.herokuapp.com/todo/${id}`, {
+    fetch(`http://localhost:5000/todo/${id}`, {
       method: "DELETE"
     })
       .then(
@@ -80,17 +123,24 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <h1>ToDo List</h1>
-        <form className="add-todo" onSubmit={this.addTodo}>
-          <input
-            type="text"
-            placeholder="Add Todo"
-            onChange={this.onChange}
-            value={this.state.todo}
-          />
-          <button type="submit">Add</button>
-        </form>
-        {this.renderTodos()}
+        <div className="completion-bar-goals-wrapper">
+          <div className="completion-bar-wrapper">
+            <div className="completion-bar" style={{width: this.state.todoCompletionBarPercentage + '%'}}>{this.state.todoCompletionBarPercentage + '%'}</div>
+          </div>
+        </div>
+        <div className="todo-wrapper">
+          <h1>ToDo List</h1>
+          <form className="add-todo" onSubmit={this.addTodo}>
+            <input
+              type="text"
+              placeholder="Add Todo"
+              onChange={this.onChange}
+              value={this.state.todo}
+            />
+            <button type="submit">Add</button>
+          </form>
+          {this.renderTodos()}
+        </div>
       </div>
     );
   }
